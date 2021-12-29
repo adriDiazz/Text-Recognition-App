@@ -4,6 +4,9 @@
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/bfeea92ecb4f0f8d0062461f41805791/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/bfeea92ecb4f0f8d0062461f41805791/res" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/bfeea92ecb4f0f8d0062461f41805791/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/4b674f3e8b826c57d94fe56be7cea3c9/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/4b674f3e8b826c57d94fe56be7cea3c9/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-basement-16.0.1.aar/4b674f3e8b826c57d94fe56be7cea3c9/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

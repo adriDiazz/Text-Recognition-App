@@ -11,15 +11,16 @@ import os
 class Servidor():
 
     #Inicializamos obteniendo nuestra ip(getHostName) y pidiendo el puerto al usuario
-    def __init__(self, host=socket.gethostname(), port = int(input("Introduzca el puerto deseado:"))):
+    def __init__(self, host= "192.168.0.13" , port = int(input("Introduzca el puerto deseado:"))):
         self.clientes = []
         self.nicknames = []#Creamos un array para guaradr los usuarios conectados
         self.sock = socket.socket()
         self.sock.bind((str(host), int(port)))#Asignamos la direccion y el puerto a la que el cliente se podra conectar 
         self.sock.listen(20)#Especifica el número de conexiones no aceptadas que permitirá el sistema antes de rechazar nuevas conexiones. 
         self.sock.setblocking(False)
-        aceptar = threading.Thread(target=self.aceptarC)#Ponemos dos hilos a aceptar y procesar mensajes continuamente para cuando alguno llegue
         procesar = threading.Thread(target=self.procesarC)
+        aceptar = threading.Thread(target=self.aceptarC)#Ponemos dos hilos a aceptar y procesar mensajes continuamente para cuando alguno llegue
+        
 
         aceptar.daemon = True
         aceptar.start()
@@ -53,14 +54,10 @@ class Servidor():
                 conn, addr = self.sock.accept()
                 print(f"\nConexion aceptada via {conn}\n")
                 conn.setblocking(False)
-                data = conn.recv(32)#Recogemos el nickname
+                data = conn.recv(1024)#Recogemos el nickname
                 print(data)
-                self.nicknames.append(data)#Metemos el nickname en el array
-                print("Usuarios Conectados: ")
-                for n in self.nicknames:
-                    print(pickle.loads(n))#Recorremos el array nicknames printeando el nickname deserializado
-                self.clientes.append(conn)#Anadimos el cliente a la lista de clientes 
-                
+                #self.guardarTxt(data)
+              
             except:
                 pass
 
@@ -72,18 +69,26 @@ class Servidor():
             if len(self.clientes) > 0:
                 for c in self.clientes:
                     try:
-                        data = c.recv(32)
+                        data = c.recv(1024)
+                        
                         
                         if data:
-                            print(pickle.loads(data))
-                            #with open('u22016494.txt','a') as writer:#Guardamos los mensajes en el .txt mediante el with para que se cierre automaticamente
-                                 #writer.write(pickle.loads(data) + "\n")#Debemos de guardar el mensaje deserializado 
+                            print(data)
+                            with open('data.txt','a') as writer:#Guardamos los mensajes en el .txt mediante el with para que se cierre automaticamente
+                                writer.write(data+ "\n")#Debemos de guardar el mensaje deserializado
+                    
                             self.broadcast(data,c)
                             
                             
 
                     except:
                         pass
+    
+    def guardarTxt(data):
+          with open('dataa.txt','a') as writer:#Guardamos los mensajes en el .txt mediante el with para que se cierre automaticamente
+                    writer.write(data + "\n")#Debemos de guardar el mensaje deserializado 
+                
+        
 
 s=Servidor()
 

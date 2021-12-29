@@ -1,6 +1,7 @@
 package com.developer.akash.textrecognition;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
@@ -17,13 +20,19 @@ import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
     SurfaceView cameraView;
     TextView textView;
     CameraSource cameraSource;
+    Button saveButton;
     final int RequestCameraPermissionID = 1001;
 
     @Override
@@ -52,8 +61,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String ip = "192.168.0.13";
+        int puerto = 1085;
+
+
+
+
         cameraView = (SurfaceView) findViewById(R.id.surface_view);
         textView = (TextView) findViewById(R.id.text_view);
+        saveButton = (Button) findViewById(R.id.boton);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
         if (!textRecognizer.isOperational()) {
@@ -107,16 +131,24 @@ public class MainActivity extends AppCompatActivity {
                         textView.post(new Runnable() {
                             @Override
                             public void run() {
+                                String ip = "192.168.0.13";
+                                int puerto = 1085;
                                 StringBuilder stringBuilder=new StringBuilder();
+
                                 for(int i=0;i<items.size();i++){
                                     TextBlock item = items.valueAt(i);
+                                    Client client = new Client(item.getValue());
+                                    client.start();
                                     stringBuilder.append(item.getValue());
-                                    stringBuilder.append("\n");
+                                    //zstringBuilder.append("\n");
+
                                 }
                                 textView.setText(stringBuilder.toString());
+
                             }
                         });
                     }
+
                 }
             });
         }
